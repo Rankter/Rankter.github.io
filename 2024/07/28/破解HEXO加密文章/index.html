@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="绕过Hexo加密文章限制，免费查看文章@-@">
+<meta property="og:type" content="article">
+<meta property="og:title" content="破解HEXO加密文章">
+<meta property="og:url" content="http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/index.html">
+<meta property="og:site_name" content="こんにちは">
+<meta property="og:description" content="绕过Hexo加密文章限制，免费查看文章@-@">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
+<meta property="article:published_time" content="2024-07-28T08:51:30.000Z">
+<meta property="article:modified_time" content="2024-08-03T02:45:50.682Z">
+<meta property="article:author" content="Rankter">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="逆向">
+<meta property="article:tag" content="破解">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>破解HEXO加密文章</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+    
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+    <!-- jquery -->
+    
+<script src="/lib/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <!-- <div class="banner">
+<div id="blogtitel" class="blogtitel">こんにちは</div> -->
+<!-- <ul id="wrapper" class="wrapper">
+  <div class="sun">
+    <div class="star"></div>
+  </div>
+  <div class="mercury">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="venus">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="earth">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="mars">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="jupiter">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+</ul> -->
+<!-- </div> -->
+ 
+ <!-- MySelf dIY的背景图片 -->
+ <!-- <div id="bg_img">
+    <div class="img_main"></div>
+ </div> -->
+
+    <div class="background">
+      
+        <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2024/07/29/%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0%E6%BC%94%E7%A4%BA/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&text=破解HEXO加密文章"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&is_video=false&description=破解HEXO加密文章"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=破解HEXO加密文章&body=Check out this article: http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&name=破解HEXO加密文章&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">一、前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Burp%E6%8A%93%E5%8C%85%E7%BB%95%E8%BF%87"><span class="toc-number">1.1.</span> <span class="toc-text">二、Burp抓包绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E6%89%93%E5%BC%80Burp"><span class="toc-number">1.2.</span> <span class="toc-text">三、 打开Burp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81-%E8%B5%B0%E4%BB%A3%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">四、 走代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81-%E6%8A%93%E5%8C%85"><span class="toc-number">1.4.</span> <span class="toc-text">五、 抓包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81-%E7%BB%95%E8%BF%87%E6%88%90%E5%8A%9F"><span class="toc-number">1.5.</span> <span class="toc-text">六、 绕过成功</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+      
+      <div class="content index width mx-auto px2 my4">
+          
+          
+          
+          <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        破解HEXO加密文章
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">OkMan</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2024-07-28T08:51:30.000Z" itemprop="datePublished">2024-07-28</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/hexo/" rel="tag">hexo</a>, <a class="tag-link-link" href="/tags/%E7%A0%B4%E8%A7%A3/" rel="tag">破解</a>, <a class="tag-link-link" href="/tags/%E9%80%86%E5%90%91/" rel="tag">逆向</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+<div class="article-gallery">
+    
+    <a class="gallery-item" href="/images/avatar.jpg" rel="gallery_cmfagtehf000c04th52b3f115">
+        <img src="/images/avatar.jpg" itemprop="image" />
+    </a>
+    
+</div>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><blockquote>
+<p> 因为<code>Hexo</code>大部分都是居于<code>Github</code>的静态博客网站，所以它所有的数据交互都是在前端进行的，那么对文章限制输入密码校验后才能访问密码也是在前端进行的。</p>
+<p>破解思路：居然输入密码限制访问是在前端进行的，那么我是不是可以进行抓包进行JS分析，然后修改JS代码进行绕过呢？</p>
+</blockquote>
+<p>说干就干….</p>
+<h3 id="二、Burp抓包绕过"><a href="#二、Burp抓包绕过" class="headerlink" title="二、Burp抓包绕过"></a>二、Burp抓包绕过</h3><p>目标URL：<img src="/images/NX/4.png" alt="image-20240727170619237"></p>
+<h3 id="三、-打开Burp"><a href="#三、-打开Burp" class="headerlink" title="三、 打开Burp"></a>三、 打开Burp</h3><p><img src="/images/NX/1.png" alt="image-20240727170108998"></p>
+<h3 id="四、-走代理"><a href="#四、-走代理" class="headerlink" title="四、 走代理"></a>四、 走代理</h3><p>打开浏览器代理走Burp，访问目标URL</p>
+<p><img src="/images/NX/2.png" alt="image-20240727170245520"></p>
+<p>右键抓响应包</p>
+<p><img src="/images/NX/3.png" alt="image-20240727170334303"></p>
+<h3 id="五、-抓包"><a href="#五、-抓包" class="headerlink" title="五、 抓包"></a>五、 抓包</h3><p>抓到包后，搜索“密码”，然后删除<code>JS</code>校验片段</p>
+<p><img src="/images/NX/5.png" alt="image-20240727170723641"></p>
+<p>删除JS代码片段后的数据包是这样子：</p>
+<p><img src="/images/NX/6.png" alt="image-20240727170803882"></p>
+<h3 id="六、-绕过成功"><a href="#六、-绕过成功" class="headerlink" title="六、 绕过成功"></a>六、 绕过成功</h3><p>然后重放，成功绕过<strong>密码访问限制</strong></p>
+<p><img src="/images/NX/7.png" alt="image-20240727170948794"></p>
+
+  </div>
+</article>
+<!-- 
+ -->
+
+  <div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+        <script src="https://utteranc.es/client.js"
+                repo="Rankter/Rankter.github.io"
+                issue-term="pathname"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+</div>
+
+
+
+      </div>
+      
+       <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">一、前言</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Burp%E6%8A%93%E5%8C%85%E7%BB%95%E8%BF%87"><span class="toc-number">1.1.</span> <span class="toc-text">二、Burp抓包绕过</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81-%E6%89%93%E5%BC%80Burp"><span class="toc-number">1.2.</span> <span class="toc-text">三、 打开Burp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E3%80%81-%E8%B5%B0%E4%BB%A3%E7%90%86"><span class="toc-number">1.3.</span> <span class="toc-text">四、 走代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%94%E3%80%81-%E6%8A%93%E5%8C%85"><span class="toc-number">1.4.</span> <span class="toc-text">五、 抓包</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%AD%E3%80%81-%E7%BB%95%E8%BF%87%E6%88%90%E5%8A%9F"><span class="toc-number">1.5.</span> <span class="toc-text">六、 绕过成功</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&text=破解HEXO加密文章"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&is_video=false&description=破解HEXO加密文章"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=破解HEXO加密文章&body=Check out this article: http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&title=破解HEXO加密文章"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/&name=破解HEXO加密文章&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2025 Rankter
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+      
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+<!-- Disqus Comments -->
+
+
+    </div>
+</body>
+</html>
