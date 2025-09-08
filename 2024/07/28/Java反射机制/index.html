@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="简单了解JAVA反射机制的原理与实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JAVA反射机制">
+<meta property="og:url" content="http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/index.html">
+<meta property="og:site_name" content="こんにちは">
+<meta property="og:description" content="简单了解JAVA反射机制的原理与实现">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
+<meta property="article:published_time" content="2024-07-28T06:38:30.000Z">
+<meta property="article:modified_time" content="2025-09-08T01:58:21.434Z">
+<meta property="article:author" content="Rankter">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="悦读">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>JAVA反射机制</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+    
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+    <!-- jquery -->
+    
+<script src="/lib/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <!-- <div class="banner">
+<div id="blogtitel" class="blogtitel">こんにちは</div> -->
+<!-- <ul id="wrapper" class="wrapper">
+  <div class="sun">
+    <div class="star"></div>
+  </div>
+  <div class="mercury">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="venus">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="earth">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="mars">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="jupiter">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+</ul> -->
+<!-- </div> -->
+ 
+ <!-- MySelf dIY的背景图片 -->
+ <!-- <div id="bg_img">
+    <div class="img_main"></div>
+ </div> -->
+
+    <div class="background">
+      
+        <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2024/07/28/%E7%A0%B4%E8%A7%A3HEXO%E5%8A%A0%E5%AF%86%E6%96%87%E7%AB%A0/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&text=JAVA反射机制"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&is_video=false&description=JAVA反射机制"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JAVA反射机制&body=Check out this article: http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&name=JAVA反射机制&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">一、Java反射机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E5%AF%B9%E8%B1%A1%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">获取类对象代码实现方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81ClassLoader%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-number">2.</span> <span class="toc-text">二、ClassLoader类加载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 类加载器的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E7%94%A8%E6%88%B7%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 用户自己实现类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84ClassLoader"><span class="toc-number">2.2.1.</span> <span class="toc-text">1、为什么要实现自己的ClassLoader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%8A%A0%E8%BD%BDclass%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">2、加载class文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E5%8A%A0%E8%BD%BD%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%EF%BC%88URL%EF%BC%89"><span class="toc-number">2.2.3.</span> <span class="toc-text">3、加载资源文件（URL）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">三、Java动态代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 JDK动态代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 实现动态代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%9C%A8%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%AD%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 在反序列化中动态代理的作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Javassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">四、Javassist动态编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Javassist%E7%AE%80%E4%BB%8B"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 Javassist简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 代码实现动态编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">4.2.1.</span> <span class="toc-text">总结：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%8E%B7%E5%8F%96Class%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.</span> <span class="toc-text">五、获取Class对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">六、通过反射执行命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">七、参考资料</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+      
+      <div class="content index width mx-auto px2 my4">
+          
+          
+          
+          <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        JAVA反射机制
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">OkMan</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2024-07-28T06:38:30.000Z" itemprop="datePublished">2024-07-28</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/web/" rel="tag">web</a>, <a class="tag-link-link" href="/tags/%E6%82%A6%E8%AF%BB/" rel="tag">悦读</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+<div class="article-gallery">
+    
+    <a class="gallery-item" href="/images/avatar.jpg" rel="gallery_cmfah48la0005zctha38ahykh">
+        <img src="/images/avatar.jpg" itemprop="image" />
+    </a>
+    
+</div>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="一、Java反射机制"><a href="#一、Java反射机制" class="headerlink" title="一、Java反射机制"></a>一、Java反射机制</h2><blockquote>
+<p>Java反射机制的核心是在程序运行时动态加载类并获取类的详细信息，从而动态操作类或对象属性和方法。本质是JVM得到class对象之后，再通过class对象进行反编译，从而获取对象的各种信息。</p>
+</blockquote>
+<p>为什么需要JAVA反射？</p>
+<p>举个例子：我们在某个程序中，需要使用<strong>实现Animal接口</strong>的Dog类，让它叫两声，叫<strong>这个动作在接口中就定义了</strong>；如果有一天，我们想Cat叫，我们是不是还要修改代码，去new一个Cat，然后把Dog换成Cat呢？然而在现实中，有很多代码的源代码你都拿不到，都修改不了；或者说，你把产品交给客户，还希望他去修改代码？</p>
+<p><strong>不如这样：</strong></p>
+<p>我们在编写代码的时候，只写一个动物会叫这个功能，我们利用反射创建一个类，然而反射需要的参数是一个字符串，我们将字符串存入配置文件中，这样，我们修改配置文件即可动态产生不一样的代码了，而用户，通过修改配置文件就可以了，他不需要怎么写代码（一般也不会知道）。</p>
+<p><strong>使用情景：</strong></p>
+<blockquote>
+<p>情景一：有的类是我们在编写程序的时候无法使用new一个对象来实例化对象的。</p>
+</blockquote>
+<p>例如：</p>
+<ul>
+<li>调用来自网络的二进制.class文件，而没有其.java代码</li>
+<li>注解-注解本身仅仅是起到标记作用，它需要利用反射机制，根据注解标记去调用注解解释器，执行行为。如果没有反射机制，注解并不比注释更有用。</li>
+</ul>
+<blockquote>
+<p>情景二：动态加载（可以最大限度的体现Java的灵活性，并降低类的耦合度：多态）</p>
+</blockquote>
+<p>有的类可以在用到时再动态加载到jvm中，这样可以减少jvm的启动时间，同时更重要的是动态的加载需要的对象（多态）。例如：</p>
+<ul>
+<li>动态代理-在切面编程（AOP）中，需要拦截特定的方法，通常，会选择动态代方式。这时，就需要反射技术来实现了。</li>
+</ul>
+<p><strong>Java反射</strong>用白话文来说就是：在编译完后（固定）的还能动态操作Java对象（动态加载）</p>
+<h3 id="获取类对象代码实现方式"><a href="#获取类对象代码实现方式" class="headerlink" title="获取类对象代码实现方式"></a>获取类对象代码实现方式</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">className</span>     <span class="operator">=</span> <span class="string">&quot;java.lang.Runtime&quot;</span>;</span><br><span class="line"><span class="type">Class</span>  <span class="variable">runtimeClass1</span> <span class="operator">=</span> Class.forName(className);</span><br><span class="line"><span class="type">Class</span>  <span class="variable">runtimeClass2</span> <span class="operator">=</span> java.lang.Runtime.class;</span><br><span class="line"><span class="type">Class</span>  <span class="variable">runtimeClass3</span> <span class="operator">=</span> ClassLoader.getSystemClassLoader().loadClass(className);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="二、ClassLoader类加载"><a href="#二、ClassLoader类加载" class="headerlink" title="二、ClassLoader类加载"></a>二、ClassLoader类加载</h2><p>参考文章：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011490072/article/details/81560295">https://blog.csdn.net/u011490072/article/details/81560295</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lioncatch/article/details/106013246">https://blog.csdn.net/lioncatch/article/details/106013246</a></li>
+</ul>
+<p>为什么要自己实现一个类加载器？</p>
+<h3 id="2-1-类加载器的种类"><a href="#2-1-类加载器的种类" class="headerlink" title="2.1 类加载器的种类"></a>2.1 类加载器的种类</h3><p>Java有三种类加载器（面试会问）</p>
+<ol>
+<li>根类加载器（bootstrap class loader）</li>
+<li>扩展类加载器（extension class loader）</li>
+<li>应用类加载器（applicaion class loader）</li>
+</ol>
+<p>关系如下图所示：</p>
+<p><img src="/images/daishen/img/61.png" alt="在这里插入图片描述"></p>
+<p>双亲委派机制：</p>
+<ul>
+<li>定义：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到顶层的<strong>启动类加载器</strong>中，只有当父类加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试去加载。这个机制就叫<strong>双亲委派机制</strong>。</li>
+</ul>
+<p>双亲委派机制的实现：</p>
+<ol>
+<li>首先，检查请求的类是否已经被加载过了</li>
+<li>未加载，则请求父类加载器去加载对应路径下的类，</li>
+<li>如果加载不到，才由下面的子类依次去加载。</li>
+</ol>
+<p>例如：</p>
+<ul>
+<li>Java.lang.String-&gt;根加载器-&gt;扩展加载器-&gt;本地加载器</li>
+</ul>
+<h3 id="2-2-用户自己实现类加载器"><a href="#2-2-用户自己实现类加载器" class="headerlink" title="2.2 用户自己实现类加载器"></a>2.2 用户自己实现类加载器</h3><h4 id="1、为什么要实现自己的ClassLoader"><a href="#1、为什么要实现自己的ClassLoader" class="headerlink" title="1、为什么要实现自己的ClassLoader"></a>1、为什么要实现自己的ClassLoader</h4><ul>
+<li>我们需要的类不一定存放在已经设置好的classPath下（有系统类加载器AppClassLoader加载的路径），对于自定义中class类文件的加载，我们需要自己的ClassLoader</li>
+<li>有时我们不一定是从类文件中读取类，可能是从网络的输入流中读取类，这就需要做一些加密和解密操作，这就需要自己实现加载类的逻辑，当然其他的特殊处理也同样适用。</li>
+<li>可以定义类的实现机制，实现类的热部署，如OSGI中的bundle模块就是通过实现自己的ClassLoader实现的。</li>
+</ul>
+<h4 id="2、加载class文件"><a href="#2、加载class文件" class="headerlink" title="2、加载class文件"></a>2、加载class文件</h4><p>在实现自己的类加载器之前，先来看一下<strong>双亲委派机制</strong>的代码实现逻辑；因为我们实现的ClassLoader都是继承于java.lang.ClassLoader类，父加载器都是AppClassLoader，所以在上层逻辑中依旧要保证该模型，所以一般不覆盖loadClass函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="keyword">synchronized</span> Class&lt;?&gt; loadClass ( String name , <span class="type">boolean</span> resolve ) <span class="keyword">throws</span> ClassNotFoundException&#123;</span><br><span class="line">        <span class="comment">//检查指定类是否被当前类加载器加载过</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> findLoadedClass(name);</span><br><span class="line">        <span class="keyword">if</span>( c == <span class="literal">null</span> )&#123;<span class="comment">//如果没被加载过，委派给父加载器加载</span></span><br><span class="line">            <span class="keyword">try</span>&#123;</span><br><span class="line">                <span class="keyword">if</span>( parent != <span class="literal">null</span> )</span><br><span class="line">                    c = parent.loadClass(name,resolve);</span><br><span class="line">                <span class="keyword">else</span> </span><br><span class="line">                    c = findBootstrapClassOrNull(name);</span><br><span class="line">            &#125;<span class="keyword">catch</span> ( ClassNotFoundException e )&#123;</span><br><span class="line">                <span class="comment">//如果父加载器无法加载</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span>( c == <span class="literal">null</span> )&#123;<span class="comment">//父类不能加载，由当前的类加载器加载</span></span><br><span class="line">                c = findClass(name);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>( resolve )&#123;<span class="comment">//如果要求立即链接，那么加载完类直接链接</span></span><br><span class="line">            resolveClass();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//将加载过这个类对象直接返回</span></span><br><span class="line">        <span class="keyword">return</span> c;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上面的代码中，我们可以看到在<strong>父加载器不能完成加载任务</strong>时，会调用<strong>findClass(name)<strong>函数，这个就是我们自己实现的ClassLoader的查找类文件的规则，所以在继承后，我们只需要</strong>覆盖findClass()这个函数</strong>，实现我们本地加载器中的查找逻辑，而且还不会破坏双亲委派模型。</p>
+<h4 id="3、加载资源文件（URL）"><a href="#3、加载资源文件（URL）" class="headerlink" title="3、加载资源文件（URL）"></a>3、加载资源文件（URL）</h4><blockquote>
+<p>我们有时会用Class.getResource():URL来获取相应的资源文件。如果仅仅使用上面的ClassLoader是找不到这个资源的，相应的返回值为null</p>
+</blockquote>
+<p>Class.getResource()的源代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> java.net.URL <span class="title function_">getResource</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        name = resolveName(name);<span class="comment">//解析资源</span></span><br><span class="line">        <span class="type">ClassLoader</span> <span class="variable">cl</span> <span class="operator">=</span> getClassLoader();<span class="comment">//获取到当前类的classLoader</span></span><br><span class="line">        <span class="keyword">if</span> (cl==<span class="literal">null</span>) &#123;<span class="comment">//如果为空，那么利用系统类加载器加载</span></span><br><span class="line">            <span class="comment">// A system class.</span></span><br><span class="line">            <span class="keyword">return</span> ClassLoader.getSystemResource(name);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//如果获取到classLoader,利用指定的classLoader加载资源</span></span><br><span class="line">        <span class="keyword">return</span> cl.getResource(name);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的代码发现Class.getResource()是通过<strong>委派给ClassLoader的getResource()实现的</strong>，所以我们来看ClassLoader对于资源文件的获取的具体实现如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> URL <span class="title function_">getResource</span><span class="params">(String name)</span> &#123;</span><br><span class="line">    URL url;</span><br><span class="line">    <span class="keyword">if</span> (parent != <span class="literal">null</span>) &#123;</span><br><span class="line">        url = parent.getResource(name);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        url = getBootstrapResource(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (url == <span class="literal">null</span>) &#123;</span><br><span class="line">        url = findResource(name);<span class="comment">//这里</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> url;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>综上</strong></p>
+<p>我们在创建自己的ClassLoader时只需要**覆写findClass(name)和findResource()**即可</p>
+<p><strong>实现加载自定义路径下的class文件</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> TestClassLoader;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.nio.ByteBuffer;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.Channels;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.FileChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.WritableByteChannel;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyClassLoader</span> <span class="keyword">extends</span> <span class="title class_">ClassLoader</span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String classpath;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyClassLoader</span><span class="params">(String classpath)</span>&#123;</span><br><span class="line">        <span class="built_in">this</span>.classpath = classpath;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> Class&lt;?&gt; findClass(String name) <span class="keyword">throws</span> ClassNotFoundException &#123;</span><br><span class="line">        <span class="type">String</span> <span class="variable">fileName</span> <span class="operator">=</span> getClassFile(name);</span><br><span class="line">        <span class="type">byte</span>[] classByte = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            classByte = getClassBytes(fileName);</span><br><span class="line">        &#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 利用自身加载器</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">realClass</span> <span class="operator">=</span> defineClass(<span class="literal">null</span>, classByte, <span class="number">0</span>, classByte.length);</span><br><span class="line">        <span class="keyword">if</span> (realClass != <span class="literal">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;由我加载&quot;</span>);</span><br><span class="line">            <span class="keyword">return</span> realClass;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 委派给父类加载器</span></span><br><span class="line">        System.out.println(<span class="string">&quot;父类加载器加载&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>.findClass(name);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * 获取当前操作系统下的类文件合法路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 合法的路径文件名</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="keyword">private</span> String <span class="title function_">getClassFile</span><span class="params">(String name)</span> &#123;</span><br><span class="line">        <span class="type">StringBuilder</span> <span class="variable">sb</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>(classpath);</span><br><span class="line">        sb.append(<span class="string">&quot;/&quot;</span>)</span><br><span class="line">                .append(name.replace(<span class="string">&#x27;.&#x27;</span>,<span class="string">&#x27;/&#x27;</span>))</span><br><span class="line">                .append(<span class="string">&quot;.class&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> sb.toString();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/***</span></span><br><span class="line"><span class="comment">     * 获取指定类文件的字节数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> name</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 类文件的字节数组</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> IOException</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span>  <span class="type">byte</span> [] getClassBytes ( String name ) <span class="keyword">throws</span> IOException&#123;</span><br><span class="line">        <span class="type">FileInputStream</span> <span class="variable">fileInput</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(name);</span><br><span class="line">        <span class="type">FileChannel</span> <span class="variable">channel</span> <span class="operator">=</span> fileInput.getChannel();</span><br><span class="line">        <span class="type">ByteArrayOutputStream</span> <span class="variable">output</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>();</span><br><span class="line">        <span class="type">WritableByteChannel</span> <span class="variable">byteChannel</span> <span class="operator">=</span> Channels.newChannel(output);</span><br><span class="line">        <span class="type">ByteBuffer</span> <span class="variable">buffer</span> <span class="operator">=</span> ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">int</span> flag;</span><br><span class="line">            <span class="keyword">while</span> ((flag = channel.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (flag == <span class="number">0</span>) <span class="keyword">break</span>;</span><br><span class="line">                <span class="comment">//将buffer写入byteChannel</span></span><br><span class="line">                buffer.flip();</span><br><span class="line">                byteChannel.write(buffer);</span><br><span class="line">                buffer.clear();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span> ( IOException e )&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;can&#x27;t read!&quot;</span>);</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125;</span><br><span class="line">        fileInput.close();</span><br><span class="line">        channel.close();</span><br><span class="line">        byteChannel.close();</span><br><span class="line">        <span class="keyword">return</span> output.toByteArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">MyClassLoader</span> <span class="variable">myClassLoader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyClassLoader</span>(<span class="string">&quot;F:\\代码审计区\\MyDemo\\Test\\target\\classes\\org\\test&quot;</span>);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            myClassLoader.loadClass(<span class="string">&quot;java.io.InputStream&quot;</span>); <span class="comment">//会有父类加载器直接加载掉，不会经过自定义的LoadClass函数</span></span><br><span class="line">            myClassLoader.loadClass(<span class="string">&quot;One&quot;</span>);</span><br><span class="line">            <span class="type">Class</span> <span class="variable">Main</span> <span class="operator">=</span> myClassLoader.loadClass(<span class="string">&quot;Mainx&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">catch</span> ( ClassNotFoundException e )&#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="/images/daishen/img/63.png" alt="image-20240624101338367"></p>
+<p><strong>热部署和加密解密的ClassLoader实现，大同小异。只是findClass的逻辑发生改变而已</strong></p>
+<p>根据以上实现的类加载器基础上，对加载class后的调用的使用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">MyClassLoader</span> <span class="variable">myClassLoader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">MyClassLoader</span>(<span class="string">&quot;F:\\代码审计区\\MyDemo\\JavaEEServlet\\src\\TestClassLoader&quot;</span>);</span><br><span class="line">        myClassLoader.loadClass(<span class="string">&quot;java.io.InputStream&quot;</span>); <span class="comment">//会有父类加载器直接加载掉，不会经过自定义的LoadClass函数</span></span><br><span class="line">        <span class="comment">//myClassLoader.loadClass(&quot;One&quot;);</span></span><br><span class="line">        <span class="type">Class</span> <span class="variable">Main</span> <span class="operator">=</span> myClassLoader.loadClass(<span class="string">&quot;Main&quot;</span>);</span><br><span class="line">        <span class="comment">// 加载class文件后如何使用</span></span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">constructor</span> <span class="operator">=</span> Main.getConstructor();</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> constructor.newInstance(); <span class="comment">//实例化对象</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">method</span> <span class="operator">=</span> Main.getMethod(<span class="string">&quot;slefsayhello&quot;</span>); <span class="comment">//不传参</span></span><br><span class="line">        <span class="type">Method</span> <span class="variable">method_1</span> <span class="operator">=</span> Main.getMethod(<span class="string">&quot;sayhello&quot;</span>,String.class); <span class="comment">//传参</span></span><br><span class="line">        method.invoke(obj);</span><br><span class="line">        method_1.invoke(obj, <span class="string">&quot;OkMain&quot;</span>); <span class="comment">//对应传入参数</span></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：<br><img src="/images/daishen/img/62.png" alt="image-20240624104648810"></p>
+<p>Mian.class的Java测试代码如下所示：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.test;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">sayhello</span><span class="params">(String name)</span>&#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hi!Hello &quot;</span>+name);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">slefsayhello</span><span class="params">()</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">		System.out.println(<span class="string">&quot;Hi! Hello My Dog!&quot;</span>);</span><br><span class="line">		<span class="comment">// 恶意代码</span></span><br><span class="line">		Runtime.getRuntime().exec(<span class="string">&quot;calc&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="三、Java动态代理"><a href="#三、Java动态代理" class="headerlink" title="三、Java动态代理"></a>三、Java动态代理</h2><p>所谓静态代理，顾名思义，当确定代理对象和被代理对象后，就无法再去代理另一个对象。</p>
+<p>动态代理与静态代理的区别在于，通过动态代理可以实现多个需求。动态代理其实是通过实现接口的方式来实现代理，具体来说，动态代理是通过Proxy类创建代理对象，然后将接口方法“代理”给<code>InvocationHandler</code>接口完成的。</p>
+<p><strong>举个现实中的例子：</strong></p>
+<p>静态代理就相当于：每多个房东就需要一个中介，这显然不符合生活认知（对于租客来说，如果是用静态代理模式，每当想要换一个房东，那就必须再换一个中介，在开发中，如果有多个中介代码量就更大了）</p>
+<p>动态代理就相当于：不管是多一个还是少一个，始终只需要一个中介。</p>
+<p><strong>动态代理基础知识：</strong></p>
+<ul>
+<li>动态代理的角色和静态代理一样，需要一个实体类，一个代理类，一个驱动器。</li>
+<li>动态代理的代理类是动态生成的，静态代理的代理类是我们提前写好的。</li>
+</ul>
+<h3 id="3-1-JDK动态代理"><a href="#3-1-JDK动态代理" class="headerlink" title="3.1 JDK动态代理"></a>3.1 JDK动态代理</h3><blockquote>
+<p>JDK的动态代理需要了解两个类</p>
+</blockquote>
+<p><strong>核心：InvocationHandler调用处理程序类和Proxy代理类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">InvocationHandler</span></span><br></pre></td></tr></table></figure>
+
+<p><code>InvocationHandler</code>是由代理实例的调用处理程序实现的接口，</p>
+<p>每个代理实例都有一个关联的调用处理程序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Object <span class="title function_">invoke</span><span class="params">(Object proxy,Method method,Object[] args)</span>;</span><br></pre></td></tr></table></figure>
+
+<p>当在代理实例上调用方法的时候，方法调用将被编码并分派到其调用处理程序的invoke()方法。</p>
+<p><strong>代理：Proxy</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Proxy</span> <span class="keyword">extends</span> <span class="title class_">Object</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-实现动态代理"><a href="#3-2-实现动态代理" class="headerlink" title="3.2 实现动态代理"></a>3.2 实现动态代理</h3><p>1、首先是我们的接口类：<code>Say.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DtProcxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Say</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">say</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、然后需要连个实体类去实现这个抽象类：<code>XiaoHong.java</code>、<code>XiaoMing.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DtProcxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">XiaoHong</span> <span class="keyword">implements</span> <span class="title class_">Say</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">say</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;小红说她想要一个苹果&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DtProcxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">XiaoMing</span> <span class="keyword">implements</span> <span class="title class_">Say</span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">say</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;小明说他想要一座私人飞机！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3、动态代理实现类：<code>UserProxyInvocationHandler.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DtProcxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationHandler;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserProxyInvocationHandler</span> <span class="keyword">implements</span> <span class="title class_">InvocationHandler</span> &#123;</span><br><span class="line">    Object obj;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">UserProxyInvocationHandler</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.obj = obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 处理代理类实例，并返回结果</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Object <span class="title function_">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        <span class="comment">// 选择过滤要执行哪些方法</span></span><br><span class="line">        <span class="keyword">if</span> (method.getName().equals(<span class="string">&quot;add&quot;</span>) || method.getName().equals(<span class="string">&quot;delete&quot;</span>)) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;有什么可以帮助你的&quot;</span>);</span><br><span class="line">            method.invoke(obj, args);</span><br><span class="line">            System.out.println(<span class="string">&quot;当前方法执行结束...&quot;</span>);</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;执行了意外之外的方法...&quot;</span>);</span><br><span class="line">            method.invoke(obj, args);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>4、启动器：<code>Client.java</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> DtProcxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Proxy;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Client</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> &#123;</span><br><span class="line">        <span class="type">XiaoHong</span> <span class="variable">xiaohong</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XiaoHong</span>();</span><br><span class="line">        <span class="type">XiaoMing</span> <span class="variable">xiaoMing</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">XiaoMing</span>();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 下面就是使用代理来执行代理替小明、小红说话的过程</span></span><br><span class="line">        <span class="type">UserProxyInvocationHandler</span> <span class="variable">xh</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserProxyInvocationHandler</span>(xiaohong);</span><br><span class="line">        <span class="type">UserProxyInvocationHandler</span> <span class="variable">xm</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">UserProxyInvocationHandler</span>(xiaoMing);</span><br><span class="line">        <span class="type">Say</span> <span class="variable">xiaoHoneSay</span> <span class="operator">=</span> (Say) Proxy.newProxyInstance(Client.class.getClassLoader(),<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Say.class&#125;,xh);</span><br><span class="line">        <span class="type">Say</span> <span class="variable">xiaoMingSay</span> <span class="operator">=</span> (Say) Proxy.newProxyInstance(Client.class.getClassLoader(),<span class="keyword">new</span> <span class="title class_">Class</span>[]&#123;Say.class&#125;,xm);</span><br><span class="line">        xiaoHoneSay.say();</span><br><span class="line">        System.out.println(<span class="string">&quot;====================&quot;</span>);</span><br><span class="line">        xiaoMingSay.say();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="/images/daishen/img/65.png" alt="image-20240625123023462"></p>
+<h3 id="3-3-在反序列化中动态代理的作用"><a href="#3-3-在反序列化中动态代理的作用" class="headerlink" title="3.3 在反序列化中动态代理的作用"></a>3.3 在反序列化中动态代理的作用</h3><p>假设存在一个能够漏洞利用的类B.f，比如Runtime.exec这种</p>
+<p>我们将入口类定义为A，我们最理想的情况是A[O] -&gt; O.f，那么我们将传进去的参数O替换为B即可。但是在实战情况下这种情况是极少的。</p>
+<p><strong>回到实战情况</strong>，比如我们的入口类A存在O.abc这个方法，也就是A[O] -&gt; O.abc；而O呢，如果是一个动态代理类，O的invoke方法里存在.f的方法，便可以漏洞利用了，下面为展示整体思路：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">A[O] -&gt; O.abc</span><br><span class="line">O[O2] invoke -&gt; O2.f // 此时将 B 去替换 O2</span><br><span class="line">最后  ----&gt;</span><br><span class="line">O[B] invoke -&gt; B.f // 达到漏洞利用效果</span><br></pre></td></tr></table></figure>
+
+<p>动态代理在反序列化当中的利用和<code>readObject</code>是异曲同工的。</p>
+<ul>
+<li>readObject方法在反序列化中会被主动执行</li>
+<li>invoke方法在动态代理中会自动执行</li>
+</ul>
+<h2 id="四、Javassist动态编程"><a href="#四、Javassist动态编程" class="headerlink" title="四、Javassist动态编程"></a>四、Javassist动态编程</h2><h3 id="3-1-Javassist简介"><a href="#3-1-Javassist简介" class="headerlink" title="3.1 Javassist简介"></a>3.1 Javassist简介</h3><p><strong>动态编程</strong>是相对于静态编程而言的一种编程形式，对于静态编程而言，类型检查是在编译时完成，但是对于动态编程来说，类型检查是在运行时完成的。<strong>因此所谓动态编程就是绕过编译过程在运行时进行操作的技术</strong>。</p>
+<p>一般来说，在依赖关系需要<strong>动态确认</strong>或者需要在<strong>运行时动态插入代码环境</strong>中，需要使用动态编程。</p>
+<p>Javassist中最为重要的是<code>ClassPool</code>、<code>CtClass</code>、<code>CtMethod</code>以及<code>CtField</code>这4个类。</p>
+<ul>
+<li>ClassPool：一个基于HashMap实现的CtClass对象容器，其中键是类名称，值是表示该类的CtClass对象。默认的ClassPool使用与底层JVM相同的路径，因此在某些情况下，可能需要向ClassPool添加类路径或类字节。</li>
+<li>CtClass：表示一个类，这些CtClass对象可以从ClassPool获得</li>
+<li>CtMethods：表示类中的方法</li>
+<li>CtFields：表示类中的字段</li>
+</ul>
+<p><img src="/images/daishen/img/66.png" alt="img"></p>
+<p><strong>Javassist使用流程：</strong></p>
+<p><img src="/images/daishen/img/67.png" alt="img"></p>
+<h3 id="3-2-代码实现动态编程"><a href="#3-2-代码实现动态编程" class="headerlink" title="3.2 代码实现动态编程"></a>3.2 代码实现动态编程</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> TestJavassist;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javassist.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">TestDome</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//生成class字节码文件</span></span><br><span class="line">    <span class="keyword">public</span> ClassPool <span class="title function_">javassist_make_class</span><span class="params">()</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">//获取默认类池</span></span><br><span class="line">        <span class="type">ClassPool</span> <span class="variable">classPool</span> <span class="operator">=</span> ClassPool.getDefault();</span><br><span class="line">        <span class="comment">//创建一个类ClassDemo</span></span><br><span class="line">        <span class="type">CtClass</span> <span class="variable">ctClass</span> <span class="operator">=</span> classPool.makeClass(<span class="string">&quot;TestJavassist.Test&quot;</span>);</span><br><span class="line">        <span class="comment">//新建一个int类型名为id的成员变量</span></span><br><span class="line">        <span class="type">CtField</span> <span class="variable">id</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CtField</span>(CtClass.intType, <span class="string">&quot;id&quot;</span>, ctClass);</span><br><span class="line">        <span class="comment">//将id设置为public</span></span><br><span class="line">        id.setModifiers(Modifier.PUBLIC);</span><br><span class="line">        <span class="comment">//将该id属性分配给Test</span></span><br><span class="line">        ctClass.addField(id);</span><br><span class="line">        <span class="comment">//添加无参构造方法</span></span><br><span class="line">        <span class="type">CtConstructor</span> <span class="variable">ctConstructor</span> <span class="operator">=</span> CtNewConstructor.make(<span class="string">&quot;public Test()&#123;&#125;&quot;</span>, ctClass);</span><br><span class="line">        ctClass.addConstructor(ctConstructor);</span><br><span class="line">        <span class="comment">//添加有参数构造方法</span></span><br><span class="line">        <span class="type">CtConstructor</span> <span class="variable">ctConstructor1</span> <span class="operator">=</span> CtNewConstructor.make(<span class="string">&quot;public Test(int ids)&#123;this.id=ids;&#125;&quot;</span>, ctClass);</span><br><span class="line">        ctClass.addConstructor(ctConstructor1);</span><br><span class="line">        <span class="comment">//添加普通方法1</span></span><br><span class="line">        <span class="type">CtMethod</span> <span class="variable">ctNewMethod</span> <span class="operator">=</span> CtNewMethod.make(<span class="string">&quot;public void calcDome()&#123;java.lang.Runtime.getRuntime().exec(\&quot;cmd.exe /c calc.exe\&quot;);&#125;&quot;</span>, ctClass);</span><br><span class="line">        ctClass.addMethod(ctNewMethod);</span><br><span class="line">        <span class="comment">//添加普通方法2</span></span><br><span class="line">        <span class="type">CtMethod</span> <span class="variable">ctNewMethod1</span> <span class="operator">=</span> CtNewMethod.make(<span class="string">&quot;public void hello()&#123;System.out.println(\&quot;Hello World!\&quot;);&#125;&quot;</span>, ctClass);</span><br><span class="line">        ctClass.addMethod(ctNewMethod1);</span><br><span class="line">        <span class="comment">//将class文件写入磁盘</span></span><br><span class="line">        <span class="comment">//转换成字节流</span></span><br><span class="line">        <span class="type">byte</span>[] bytes = ctClass.toBytecode();</span><br><span class="line">        <span class="comment">//写入磁盘</span></span><br><span class="line">        <span class="type">File</span> <span class="variable">classpath</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(<span class="keyword">new</span> <span class="title class_">File</span>(System.getProperty(<span class="string">&quot;user.dir&quot;</span>), <span class="string">&quot;/src/TestJavassist&quot;</span>),<span class="string">&quot;Test.class&quot;</span>);</span><br><span class="line">        <span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(classpath);</span><br><span class="line">        fos.write(bytes);</span><br><span class="line">        fos.close();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> classPool;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//执行class字节码文件</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">javassist_exec_class</span><span class="params">(ClassPool classPool)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line"><span class="comment">//        ClassPool classPool = ClassPool.getDefault();</span></span><br><span class="line">        <span class="comment">//获取javassist的classloader</span></span><br><span class="line">        <span class="type">ClassLoader</span> <span class="variable">loader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Loader</span>(classPool);</span><br><span class="line">        System.out.println(<span class="string">&quot;loading&quot;</span>);</span><br><span class="line">        <span class="comment">//加载新的class文件</span></span><br><span class="line">        Class&lt;?&gt; clazz = loader.loadClass(<span class="string">&quot;TestJavassist.Test&quot;</span>);</span><br><span class="line">        <span class="comment">//反射调用函数</span></span><br><span class="line">        clazz.getMethod(<span class="string">&quot;calcDome&quot;</span>).invoke(clazz.newInstance());</span><br><span class="line">        clazz.getDeclaredMethod(<span class="string">&quot;hello&quot;</span>).invoke(clazz.newInstance());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">        <span class="type">TestDome</span> <span class="variable">test</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TestDome</span>();</span><br><span class="line">        <span class="comment">//生成class文件</span></span><br><span class="line">        <span class="type">ClassPool</span> <span class="variable">classPool</span> <span class="operator">=</span> test.javassist_make_class();</span><br><span class="line">        <span class="comment">//执行class文件</span></span><br><span class="line">        test.javassist_exec_class(classPool);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="/images/daishen/img/68.png" alt="image-20240627102025004"></p>
+<h4 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h4><p><code>Javassist</code>可能存在的漏洞点还是在于反射的利用、使用<code>ClassPool</code>生成class文件的过程中，如果存在参数可控的话，也会造成代码注入的漏洞。</p>
+<h2 id="五、获取Class对象"><a href="#五、获取Class对象" class="headerlink" title="五、获取Class对象"></a>五、获取Class对象</h2><p>Java反射操作的是<code>java.lang.Class</code>对象，所以我们需要先想办法获取到Class对象，通常有以下几种获取方式：</p>
+<ol>
+<li>类名.class</li>
+<li>Class.forName(“java.lang.Runtime”)</li>
+<li>classLoader.loadClass(“java.lang.Runtime”)</li>
+</ol>
+<p>获取数组类型的Class对象需要特殊注意，需要使用Java类型的描述符方式，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; doubleArray = Class.forName(<span class="string">&quot;[D&quot;</span>);<span class="comment">//相当于double[].class</span></span><br><span class="line">Class&lt;?&gt; cStringArray = Class.forName(<span class="string">&quot;[[Ljava.lang.String;&quot;</span>);<span class="comment">// 相当于String[][].class</span></span><br></pre></td></tr></table></figure>
+
+<p>获取Runtime类Class对象代码片段：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">String</span> <span class="variable">className</span> <span class="operator">=</span> <span class="string">&quot;java.lang.Runtime&quot;</span>;</span><br><span class="line"><span class="type">Class</span>  <span class="variable">runtimeClass1</span> <span class="operator">=</span> Class.forName(className);</span><br><span class="line"><span class="type">Class</span>  <span class="variable">runtimeClass2</span> <span class="operator">=</span> java.lang.Runtime.class;</span><br><span class="line"><span class="type">Class</span>  <span class="variable">runtimeClass3</span> <span class="operator">=</span> ClassLoader.getSystemClassLoader().loadClass(className);</span><br></pre></td></tr></table></figure>
+
+<p>通过以上任意一种方式就可以获取<code>java.lang.Runtime</code>类的Class对象了，反射调用内部类的时候需要使用<code>$</code>来代替，如<code>com.anbai.Test</code>类有一个叫做<code>Hello</code>的内部类，那么调用的时候就应该将类名写成：<code>com.anbai.Test$Hello</code></p>
+<h2 id="六、通过反射执行命令"><a href="#六、通过反射执行命令" class="headerlink" title="六、通过反射执行命令"></a>六、通过反射执行命令</h2><p>普通反射执命令</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Class</span> <span class="variable">runtime</span> <span class="operator">=</span> Class.forName(<span class="string">&quot;java.lang.Runtime&quot;</span>);</span><br><span class="line"><span class="type">Method</span> <span class="variable">m1</span> <span class="operator">=</span> runtime.getMethod(<span class="string">&quot;getRuntime&quot;</span>);</span><br><span class="line"><span class="type">Method</span> <span class="variable">m2</span> <span class="operator">=</span> runtime.getMethod(<span class="string">&quot;exec&quot;</span>, String.class);</span><br><span class="line">m2.invoke(m1.invoke(runtime),<span class="string">&quot;calc&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果WAF拦截<code>Runtime</code>关键字的话，就转出字节数组的方式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java.lang.Runtime</span></span><br><span class="line"><span class="type">byte</span>[] arr = <span class="keyword">new</span> <span class="title class_">byte</span>[]&#123;<span class="number">106</span>, <span class="number">97</span>, <span class="number">118</span>, <span class="number">97</span>, <span class="number">46</span>, <span class="number">108</span>, <span class="number">97</span>, <span class="number">110</span>, <span class="number">103</span>, <span class="number">46</span>, <span class="number">82</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">116</span>, <span class="number">105</span>, <span class="number">109</span>, <span class="number">101</span>&#125;;</span><br><span class="line"><span class="type">byte</span>[] arr1 = <span class="keyword">new</span> <span class="title class_">byte</span>[]&#123;<span class="number">103</span>, <span class="number">101</span>, <span class="number">116</span>, <span class="number">82</span>, <span class="number">117</span>, <span class="number">110</span>, <span class="number">116</span>, <span class="number">105</span>, <span class="number">109</span>, <span class="number">101</span>&#125;; <span class="comment">// getRuntime</span></span><br><span class="line"><span class="type">byte</span>[] arr2 = <span class="keyword">new</span> <span class="title class_">byte</span>[]&#123;<span class="number">101</span>, <span class="number">120</span>, <span class="number">101</span>, <span class="number">99</span>&#125;; <span class="comment">// exec</span></span><br><span class="line"><span class="type">Class</span> <span class="variable">runtime</span> <span class="operator">=</span> Class.forName(<span class="keyword">new</span> <span class="title class_">String</span>(arr));</span><br><span class="line"><span class="type">Method</span> <span class="variable">m1</span> <span class="operator">=</span> runtime.getMethod(<span class="keyword">new</span> <span class="title class_">String</span>(arr1));</span><br><span class="line"><span class="type">Method</span> <span class="variable">m2</span> <span class="operator">=</span> runtime.getMethod(<span class="keyword">new</span> <span class="title class_">String</span>(arr2), String.class);</span><br><span class="line">m2.invoke(m1.invoke(runtime),<span class="string">&quot;calc&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="七、参考资料"><a href="#七、参考资料" class="headerlink" title="七、参考资料"></a>七、参考资料</h2><p><a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/335236.html">https://www.freebuf.com/articles/web/335236.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/yokan/p/16102570.html">https://www.cnblogs.com/yokan/p/16102570.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://kpa1on.github.io/2022/04/27/Java%E5%AE%89%E5%85%A8%E4%B9%8BJavassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B/#Javassist%E7%9A%84%E4%BD%BF%E7%94%A8">https://kpa1on.github.io/2022/04/27/Java%E5%AE%89%E5%85%A8%E4%B9%8BJavassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B/#Javassist%E7%9A%84%E4%BD%BF%E7%94%A8</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.javasec.org/javase/CommandExecution/">https://www.javasec.org/javase/CommandExecution/</a></p>
+
+  </div>
+</article>
+<!-- 
+ -->
+
+  <div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+        <script src="https://utteranc.es/client.js"
+                repo="Rankter/Rankter.github.io"
+                issue-term="pathname"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+</div>
+
+
+
+      </div>
+      
+       <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6"><span class="toc-number">1.</span> <span class="toc-text">一、Java反射机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96%E7%B1%BB%E5%AF%B9%E8%B1%A1%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">1.1.</span> <span class="toc-text">获取类对象代码实现方式</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81ClassLoader%E7%B1%BB%E5%8A%A0%E8%BD%BD"><span class="toc-number">2.</span> <span class="toc-text">二、ClassLoader类加载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8%E7%9A%84%E7%A7%8D%E7%B1%BB"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 类加载器的种类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E7%94%A8%E6%88%B7%E8%87%AA%E5%B7%B1%E5%AE%9E%E7%8E%B0%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 用户自己实现类加载器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%B7%B1%E7%9A%84ClassLoader"><span class="toc-number">2.2.1.</span> <span class="toc-text">1、为什么要实现自己的ClassLoader</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%E3%80%81%E5%8A%A0%E8%BD%BDclass%E6%96%87%E4%BB%B6"><span class="toc-number">2.2.2.</span> <span class="toc-text">2、加载class文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%E3%80%81%E5%8A%A0%E8%BD%BD%E8%B5%84%E6%BA%90%E6%96%87%E4%BB%B6%EF%BC%88URL%EF%BC%89"><span class="toc-number">2.2.3.</span> <span class="toc-text">3、加载资源文件（URL）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Java%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">3.</span> <span class="toc-text">三、Java动态代理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-JDK%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 JDK动态代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 实现动态代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%9C%A8%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%B8%AD%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 在反序列化中动态代理的作用</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81Javassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B"><span class="toc-number">4.</span> <span class="toc-text">四、Javassist动态编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-Javassist%E7%AE%80%E4%BB%8B"><span class="toc-number">4.1.</span> <span class="toc-text">3.1 Javassist简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B"><span class="toc-number">4.2.</span> <span class="toc-text">3.2 代码实现动态编程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">4.2.1.</span> <span class="toc-text">总结：</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%8E%B7%E5%8F%96Class%E5%AF%B9%E8%B1%A1"><span class="toc-number">5.</span> <span class="toc-text">五、获取Class对象</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E9%80%9A%E8%BF%87%E5%8F%8D%E5%B0%84%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="toc-number">6.</span> <span class="toc-text">六、通过反射执行命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">7.</span> <span class="toc-text">七、参考资料</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&text=JAVA反射机制"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&is_video=false&description=JAVA反射机制"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=JAVA反射机制&body=Check out this article: http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&title=JAVA反射机制"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/07/28/Java%E5%8F%8D%E5%B0%84%E6%9C%BA%E5%88%B6/&name=JAVA反射机制&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2025 Rankter
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+      
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+<!-- Disqus Comments -->
+
+
+    </div>
+</body>
+</html>
