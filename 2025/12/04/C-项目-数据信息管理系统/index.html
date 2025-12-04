@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="C++语言实现数据管理系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++项目-数据信息管理系统">
+<meta property="og:url" content="http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="こんにちは">
+<meta property="og:description" content="C++语言实现数据管理系统">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
+<meta property="article:published_time" content="2025-12-04T15:32:19.000Z">
+<meta property="article:modified_time" content="2025-12-04T15:37:52.476Z">
+<meta property="article:author" content="Rankter">
+<meta property="article:tag" content="C++语言">
+<meta property="article:tag" content="C++语言项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>C++项目-数据信息管理系统</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+    
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+    <!-- jquery -->
+    
+<script src="/lib/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <!-- <div class="banner">
+<div id="blogtitel" class="blogtitel">こんにちは</div> -->
+<!-- <ul id="wrapper" class="wrapper">
+  <div class="sun">
+    <div class="star"></div>
+  </div>
+  <div class="mercury">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="venus">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="earth">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="mars">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="jupiter">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+</ul> -->
+<!-- </div> -->
+ 
+ <!-- MySelf dIY的背景图片 -->
+ <!-- <div id="bg_img">
+    <div class="img_main"></div>
+ </div> -->
+
+    <div class="background">
+      
+        <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2025/09/08/C%E8%AF%AD%E8%A8%80%E9%A1%B9%E7%9B%AE-%E8%B4%AA%E5%90%83%E8%9B%87/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&text=C++项目-数据信息管理系统"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&is_video=false&description=C++项目-数据信息管理系统"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++项目-数据信息管理系统&body=Check out this article: http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&name=C++项目-数据信息管理系统&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">数据信息管理系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text">项目功能需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">项目目录结构</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+      
+      <div class="content index width mx-auto px2 my4">
+          
+          
+          
+          <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        C++项目-数据信息管理系统
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">OkMan</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2025-12-04T15:32:19.000Z" itemprop="datePublished">2025-12-04</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/C-%E8%AF%AD%E8%A8%80/" rel="tag">C++语言</a>, <a class="tag-link-link" href="/tags/C-%E8%AF%AD%E8%A8%80%E9%A1%B9%E7%9B%AE/" rel="tag">C++语言项目</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+<div class="article-gallery">
+    
+    <a class="gallery-item" href="/images/avatar.jpg" rel="gallery_cmirlox350000soth5smo6uyp">
+        <img src="/images/avatar.jpg" itemprop="image" />
+    </a>
+    
+</div>
+
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="数据信息管理系统"><a href="#数据信息管理系统" class="headerlink" title="数据信息管理系统"></a>数据信息管理系统</h1><h2 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h2><p><img src="/images/Other/88.png" alt="image-20251102182214271"></p>
+<p><img src="/images/Other/90.png" alt="image-20251102182535540"></p>
+<h2 id="项目功能需求"><a href="#项目功能需求" class="headerlink" title="项目功能需求"></a>项目功能需求</h2><p>实现一个班级管理系统，需要具有以下功能：</p>
+<ul>
+<li>添加学生信息</li>
+<li>删除学生信息</li>
+<li>修改学生信息</li>
+<li>显示学生信息</li>
+<li>清空学生信息</li>
+</ul>
+<p>使用到的技术：</p>
+<ul>
+<li>封装</li>
+<li>继承</li>
+<li>多态</li>
+<li>多态数组容器</li>
+</ul>
+<h2 id="项目目录结构"><a href="#项目目录结构" class="headerlink" title="项目目录结构"></a>项目目录结构</h2><p><img src="/images/Other/92.png" alt="image-20251104231843275"></p>
+<p><code>Manage.cpp</code>核心代码</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Manage.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;VAStudent.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;REStudent.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">Manage::<span class="built_in">Manage</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Manage::~<span class="built_in">Manage</span>()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Manage::Menu</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;	</span><br><span class="line">	<span class="keyword">while</span> (<span class="literal">true</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="type">int</span> userSelect = <span class="keyword">this</span>-&gt;<span class="built_in">indexPage</span>();</span><br><span class="line">		<span class="keyword">switch</span> (userSelect)</span><br><span class="line">		&#123;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">			userSelect = <span class="keyword">this</span>-&gt;<span class="built_in">indexPage</span>(<span class="number">1</span>);</span><br><span class="line">			<span class="keyword">if</span> (userSelect == <span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">this</span>-&gt;<span class="built_in">addStdFunc</span>();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">			userSelect = <span class="keyword">this</span>-&gt;<span class="built_in">indexPage</span>(<span class="number">2</span>);</span><br><span class="line">			<span class="keyword">if</span> (userSelect == <span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">this</span>-&gt;<span class="built_in">delStdFunc</span>();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">			userSelect = <span class="keyword">this</span>-&gt;<span class="built_in">indexPage</span>(<span class="number">3</span>);</span><br><span class="line">			<span class="keyword">if</span> (userSelect == <span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">this</span>-&gt;<span class="built_in">modifyStdFunc</span>();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">			userSelect = <span class="keyword">this</span>-&gt;<span class="built_in">indexPage</span>(<span class="number">4</span>);</span><br><span class="line">			<span class="keyword">if</span> (userSelect == <span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">this</span>-&gt;<span class="built_in">showStdFunc</span>();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">5</span>:</span><br><span class="line">			userSelect = <span class="keyword">this</span>-&gt;<span class="built_in">indexPage</span>(<span class="number">5</span>);</span><br><span class="line">			<span class="keyword">if</span> (userSelect == <span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">this</span>-&gt;<span class="built_in">searchStdFunc</span>();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">6</span>:</span><br><span class="line">			userSelect = <span class="keyword">this</span>-&gt;<span class="built_in">indexPage</span>(<span class="number">6</span>);</span><br><span class="line">			<span class="keyword">if</span> (userSelect == <span class="number">-1</span>) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">this</span>-&gt;<span class="built_in">clearStdFunc</span>();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">case</span> <span class="number">7</span>:</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">default</span>:</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">Manage::indexPage</span><span class="params">(<span class="type">int</span> index)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;cls&quot;</span>);</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t#######欢迎使用逆向工程学院管理系统#######&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="number">7</span>; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (index == <span class="number">0</span>) &#123;</span><br><span class="line">			std::cout &lt;&lt; <span class="string">&quot;\t\t\t|----------------------------------------|&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">			std::cout &lt;&lt; <span class="string">&quot;\t\t\t|\t\t&quot;</span> &lt;&lt; (i + <span class="number">1</span>) &lt;&lt; <span class="string">&quot;. &quot;</span> &lt;&lt; menuList[i] &lt;&lt; <span class="string">&quot;\t\t |&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span> </span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">if</span> (index == (i<span class="number">+1</span>))</span><br><span class="line">			&#123;</span><br><span class="line">				std::cout &lt;&lt; <span class="string">&quot;\t\t\t|----------------------------------------|&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">				std::cout &lt;&lt; <span class="string">&quot;\t\t\t|\t\t&quot;</span> &lt;&lt; <span class="string">&quot;1. &quot;</span> &lt;&lt; menuList[i] &lt;&lt; <span class="string">&quot;\t\t |&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">				std::cout &lt;&lt; <span class="string">&quot;\t\t\t|----------------------------------------|&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">				std::string userSelect;</span><br><span class="line">				std::cout&lt;&lt;<span class="string">&quot;\t\t\t|&quot;</span>&lt;&lt; <span class="string">&quot;输入任意键继续，输入0返回：&quot;</span>;</span><br><span class="line">				std::cin &gt;&gt; userSelect;</span><br><span class="line">				<span class="keyword">if</span> (userSelect == <span class="string">&quot;0&quot;</span>) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">				<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|----------------------------------------|&quot;</span> &lt;&lt; std::endl;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> userSelect;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|请输入选项（1~7）: &quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; userSelect;</span><br><span class="line">	<span class="keyword">return</span> userSelect;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Manage::addStdFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> userSelect;</span><br><span class="line">	<span class="type">int</span> sid;</span><br><span class="line">	std::string name;</span><br><span class="line">	<span class="type">int</span> className;</span><br><span class="line">	FLAG:</span><br><span class="line">	std::cout&lt;&lt; <span class="string">&quot;\t\t\t|请选择专业（1.病毒分析、2.逆向破解）：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; userSelect;</span><br><span class="line">	<span class="comment">//if (userSelect == 0) return;</span></span><br><span class="line">	<span class="keyword">if</span> (userSelect &gt; <span class="number">3</span> || userSelect &lt; <span class="number">0</span>) <span class="keyword">goto</span> FLAG;</span><br><span class="line">	std::cout&lt;&lt; <span class="string">&quot;\t\t\t|请输入学号：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; sid;</span><br><span class="line">	<span class="type">bool</span> is_null = <span class="keyword">this</span>-&gt;<span class="built_in">isSidInArr</span>(sid);</span><br><span class="line">	<span class="keyword">if</span> (is_null) &#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;\t\t\t|您输入的学号已存在！&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">goto</span> FLAG;</span><br><span class="line">	&#125;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|请输入姓名：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; name;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|请输入班级：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; className;</span><br><span class="line">	<span class="keyword">if</span> (userSelect == <span class="number">1</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">VAStudent</span>(sid,name,className));</span><br><span class="line">	&#125;<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">push_back</span>(<span class="keyword">new</span> <span class="built_in">REStudent</span>(sid, name, className));</span><br><span class="line">	&#125;</span><br><span class="line">	std::string yn;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|已添加学生信息，是否继续添加？(y/n)：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; yn;</span><br><span class="line">	<span class="keyword">if</span> (yn == <span class="string">&quot;y&quot;</span>) <span class="keyword">goto</span> FLAG;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Manage::delStdFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> del_id;</span><br><span class="line">	<span class="comment">//std::cout &lt;&lt; &quot;\t\t\t|进入删除学生信息模块，输入-1返回&gt;&gt; &quot; &lt;&lt; std::endl;</span></span><br><span class="line">	DEL_FLAG:</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|请输入要删除的学生ID：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; del_id;</span><br><span class="line">	<span class="keyword">if</span> (del_id == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">if</span> (!(<span class="keyword">this</span>-&gt;<span class="built_in">isSidInArr</span>(del_id)))</span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;\t\t\t|您输入的学号不存在，请重新输入 &quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">goto</span> DEL_FLAG;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="comment">// 开始删除学生信息</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (del_id == ArrStds[i]-&gt;sId)</span><br><span class="line">		&#123;</span><br><span class="line">			std::string u_scl;</span><br><span class="line">			std::cout &lt;&lt; <span class="string">&quot;\t\t\t|您要删除的学生信息是&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">			ArrStds[i]-&gt;<span class="built_in">showStudentInfo</span>();</span><br><span class="line">			std::cout &lt;&lt; <span class="string">&quot;\t\t\t|是否确认删除（y/n）：&quot;</span>;</span><br><span class="line">			std::cin &gt;&gt; u_scl;</span><br><span class="line">			<span class="keyword">if</span> (u_scl == <span class="string">&quot;y&quot;</span>)</span><br><span class="line">			&#123;</span><br><span class="line">				<span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">erase</span>(<span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">begin</span>() + i);</span><br><span class="line">				std::cout &lt;&lt; <span class="string">&quot;\t\t\t|已删除学生，学号为：&quot;</span>&lt;&lt; del_id &lt;&lt; std::endl;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> &#123;</span><br><span class="line">				<span class="keyword">goto</span> DEL_FLAG;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	std::string u_scl;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|是否继续删除（y/n）：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; u_scl;</span><br><span class="line">	<span class="keyword">if</span> (u_scl == <span class="string">&quot;y&quot;</span>) <span class="keyword">goto</span> DEL_FLAG;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">	<span class="comment">//system(&quot;pause&quot;);</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Manage::modifyStdFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FLAG:</span><br><span class="line">	<span class="type">int</span> u_id;</span><br><span class="line">	<span class="type">int</span> is_in = <span class="literal">false</span>;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|请输入要修改的学生ID：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; u_id;</span><br><span class="line">	<span class="keyword">if</span> (u_id == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (u_id == <span class="keyword">this</span>-&gt;ArrStds[i]-&gt;sId)</span><br><span class="line">		&#123;</span><br><span class="line">			is_in = <span class="literal">true</span>;</span><br><span class="line">			std::cout &lt;&lt; <span class="string">&quot;\t\t\t|您要修改的学生信息如下所示：&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">			<span class="keyword">this</span>-&gt;ArrStds[i]-&gt;<span class="built_in">showStudentInfo</span>();</span><br><span class="line">			<span class="type">int</span> new_id;</span><br><span class="line">			std::cout &lt;&lt; <span class="string">&quot;\t\t\t|请输入要修改的学号：&quot;</span>;</span><br><span class="line">			std::cin &gt;&gt; new_id;</span><br><span class="line">			<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;<span class="built_in">isSidInArr</span>(new_id))</span><br><span class="line">			&#123;</span><br><span class="line">				std::cout &lt;&lt; <span class="string">&quot;\t\t\t|您要修改的学号已经存在，不可修改&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">				<span class="keyword">goto</span> FLAG;</span><br><span class="line">			&#125;</span><br><span class="line">			ArrStds[i]-&gt;sId = new_id;</span><br><span class="line">			std::cout &lt;&lt; <span class="string">&quot;\t\t\t|学号已经修改成：&quot;</span>&lt;&lt; ArrStds[i]-&gt;sId &lt;&lt; std::endl;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (!is_in) </span><br><span class="line">	&#123;</span><br><span class="line">		std::cout&lt;&lt;<span class="string">&quot;\t\t\t|您输入的学号不存在，请查询输入&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">goto</span> FLAG;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Manage::showStdFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::cout&lt;&lt;<span class="string">&quot;\t\t\t|全部学生信息如下所示&gt;&gt; &quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 这里使用到多态技术</span></span><br><span class="line">		<span class="keyword">this</span>-&gt;ArrStds[i]-&gt;<span class="built_in">showStudentInfo</span>();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Manage::searchStdFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	FLAG:</span><br><span class="line">	<span class="type">int</span> is_emty = <span class="literal">true</span>;</span><br><span class="line">	<span class="type">int</span> in_id;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|请输入学号搜索：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; in_id;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|搜索到的学生信息如下所示：&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (in_id == <span class="keyword">this</span>-&gt;ArrStds[i]-&gt;sId)</span><br><span class="line">		&#123;</span><br><span class="line">			is_emty = <span class="literal">false</span>;</span><br><span class="line">			<span class="keyword">this</span>-&gt;ArrStds[i]-&gt;<span class="built_in">showStudentInfo</span>();</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	std::string dd;</span><br><span class="line">	<span class="keyword">if</span> (is_emty) </span><br><span class="line">	&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;\t\t\t|搜索到的信息为空&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|是否继承搜索（y/n）：&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; dd;</span><br><span class="line">	<span class="keyword">if</span> (dd == <span class="string">&quot;y&quot;</span>) <span class="keyword">goto</span> FLAG;</span><br><span class="line">	<span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">Manage::clearStdFunc</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	std::string is_claer_std;</span><br><span class="line">	std::cout &lt;&lt; <span class="string">&quot;\t\t\t|是否清空全部学生信息?（y/n）&quot;</span>;</span><br><span class="line">	std::cin &gt;&gt; is_claer_std;</span><br><span class="line">	<span class="keyword">if</span> (is_claer_std == <span class="string">&quot;y&quot;</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">clear</span>();</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;\t\t\t|学生信息已全部清空.&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">bool</span> <span class="title">Manage::isSidInArr</span><span class="params">(<span class="type">int</span> sid)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">size</span>() &lt;= <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">for</span> (<span class="type">size_t</span> i = <span class="number">0</span>; i &lt; <span class="keyword">this</span>-&gt;ArrStds.<span class="built_in">size</span>(); i++)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (sid == <span class="keyword">this</span>-&gt;ArrStds[i]-&gt;sId) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>项目完成截图：</p>
+<p><img src="/images/Other/91.png" alt="image-20251104231808759"></p>
+
+  </div>
+</article>
+<!-- 
+ -->
+
+  <div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+        <script src="https://utteranc.es/client.js"
+                repo="Rankter/Rankter.github.io"
+                issue-term="pathname"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+</div>
+
+
+
+      </div>
+      
+       <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.</span> <span class="toc-text">数据信息管理系统</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="toc-number">1.1.</span> <span class="toc-text">创建项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%8A%9F%E8%83%BD%E9%9C%80%E6%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text">项目功能需求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="toc-number">1.3.</span> <span class="toc-text">项目目录结构</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&text=C++项目-数据信息管理系统"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&is_video=false&description=C++项目-数据信息管理系统"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=C++项目-数据信息管理系统&body=Check out this article: http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&title=C++项目-数据信息管理系统"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/&name=C++项目-数据信息管理系统&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2025 Rankter
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+      
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+<!-- Disqus Comments -->
+
+
+    </div>
+</body>
+</html>
