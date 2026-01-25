@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="居于C语言实现动态平衡二叉树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构之平衡二叉树">
+<meta property="og:url" content="http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/index.html">
+<meta property="og:site_name" content="こんにちは">
+<meta property="og:description" content="居于C语言实现动态平衡二叉树">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/avatar.jpg">
+<meta property="article:published_time" content="2026-01-25T13:33:00.000Z">
+<meta property="article:modified_time" content="2026-01-25T13:42:36.920Z">
+<meta property="article:author" content="Rankter">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="二叉树">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/avatar.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>数据结构之平衡二叉树</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+    
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+
+    
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- rss -->
+    
+    
+    <!-- jquery -->
+    
+<script src="/lib/jquery/jquery.min.js"></script>
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+    <!-- <div class="banner">
+<div id="blogtitel" class="blogtitel">こんにちは</div> -->
+<!-- <ul id="wrapper" class="wrapper">
+  <div class="sun">
+    <div class="star"></div>
+  </div>
+  <div class="mercury">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="venus">
+    <div class="planet">
+      <div class="shadow"></div>
+    </div>
+  </div>
+  <div class="earth">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="mars">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+  <div class="jupiter">
+    <div class="planet"><div class="shadow"></div></div>
+  </div>
+</ul> -->
+<!-- </div> -->
+ 
+ <!-- MySelf dIY的背景图片 -->
+ <!-- <div id="bg_img">
+    <div class="img_main"></div>
+ </div> -->
+
+    <div class="background">
+      
+        <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2025/12/04/C-%E9%A1%B9%E7%9B%AE-%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&text=数据结构之平衡二叉树"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&is_video=false&description=数据结构之平衡二叉树"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据结构之平衡二叉树&body=Check out this article: http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&name=数据结构之平衡二叉树&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">一、平衡二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.1.</span> <span class="toc-text">平衡二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E5%9B%A0%E5%AD%90%EF%BC%88BF%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">平衡因子（BF）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%97%8B%E8%BD%AC"><span class="toc-number">2.</span> <span class="toc-text">二、旋转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%B1%E8%A1%A1%E7%B1%BB%E5%9E%8B%EF%BC%884%E7%A7%8D%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">失衡类型（4种）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LL%EF%BC%88%E5%B7%A6%E5%B7%A6%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">LL（左左失衡）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RR%EF%BC%88%E5%8F%B3%E5%8F%B3%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.2.</span> <span class="toc-text">RR（右右失衡）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LR%EF%BC%88%E5%B7%A6%E5%8F%B3%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.3.</span> <span class="toc-text">LR（左右失衡）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RL%EF%BC%88%E5%8F%B3%E5%B7%A6%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.4.</span> <span class="toc-text">RL（右左失衡）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">旋转方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%8F%B3%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.1.</span> <span class="toc-text">单右旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%B7%A6%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.2.</span> <span class="toc-text">单左旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A6%E5%8F%B3%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.3.</span> <span class="toc-text">左右旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%B3%E5%B7%A6%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.4.</span> <span class="toc-text">右左旋转</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E6%97%8B%E8%BD%AC"><span class="toc-number">2.3.</span> <span class="toc-text">模拟旋转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%B9%B3%E8%A1%A1%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">三、平衡框架设计</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+      
+      <div class="content index width mx-auto px2 my4">
+          
+          
+          
+          <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        数据结构之平衡二叉树
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">OkMan</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2026-01-25T13:33:00.000Z" itemprop="datePublished">2026-01-25</time>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link-link" href="/tags/%E4%BA%8C%E5%8F%89%E6%A0%91/" rel="tag">二叉树</a>, <a class="tag-link-link" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag">数据结构</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+<div class="article-gallery">
+    
+    <a class="gallery-item" href="/images/avatar.jpg" rel="gallery_cmktsf7oh0000gcth62hd4knq">
+        <img src="/images/avatar.jpg" itemprop="image" />
+    </a>
+    
+</div>
+
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="一、平衡二叉树"><a href="#一、平衡二叉树" class="headerlink" title="一、平衡二叉树"></a>一、平衡二叉树</h2><h3 id="平衡二叉树"><a href="#平衡二叉树" class="headerlink" title="平衡二叉树"></a><strong>平衡二叉树</strong></h3><ol>
+<li>二叉排序树</li>
+<li>任何一个节点的左子树以及右子树都是平衡二叉树</li>
+<li>任何一个节点的左子树与右子树的高度差值的绝对值不能大于1</li>
+</ol>
+<p><strong>平衡二叉树与不是平衡二叉树的区别</strong></p>
+<p><img src="/images/tree/73.png" alt="image-20260125131406836"></p>
+<h3 id="平衡因子（BF）"><a href="#平衡因子（BF）" class="headerlink" title="平衡因子（BF）"></a><strong>平衡因子（BF）</strong></h3><ol>
+<li>节点的<strong>平衡因子</strong>为其节点左子树的高度减去其右子树的高度。<ol>
+<li>平衡的值一般为：<code>0	1	-1</code></li>
+</ol>
+</li>
+</ol>
+<p><strong>最小不平衡子树</strong></p>
+<ol>
+<li>二叉树中插入节点时，<strong>距离（叶子节点）最近</strong>的插入节点后BF值大于1的节点作为根节点的子树。</li>
+<li>从叶子节点开始计算距离</li>
+</ol>
+<p><strong>节点失衡</strong></p>
+<ol>
+<li>二叉树插入节点时，出现平衡因子绝对值大于1的<strong>最小不平衡子树。</strong></li>
+<li>通过<strong>旋转</strong>来修正<strong>最小不平衡子树</strong>。</li>
+</ol>
+<p><img src="/images/tree/74.png" alt="image-20260125134641114"></p>
+<h2 id="二、旋转"><a href="#二、旋转" class="headerlink" title="二、旋转"></a>二、旋转</h2><blockquote>
+<p>当出现节点失衡时就需要通过旋转来修正失衡的平衡二叉树</p>
+</blockquote>
+<h3 id="失衡类型（4种）"><a href="#失衡类型（4种）" class="headerlink" title="失衡类型（4种）"></a>失衡类型（4种）</h3><h4 id="LL（左左失衡）"><a href="#LL（左左失衡）" class="headerlink" title="LL（左左失衡）"></a>LL（左左失衡）</h4><ul>
+<li>插入节点发生在左子树的左侧</li>
+</ul>
+<p><img src="/images/tree/75.png" alt="image-20260125142156933"></p>
+<h4 id="RR（右右失衡）"><a href="#RR（右右失衡）" class="headerlink" title="RR（右右失衡）"></a>RR（右右失衡）</h4><ul>
+<li>插入节点发生在右子树的右侧</li>
+</ul>
+<p><img src="/images/tree/76.png" alt="image-20260125142217421"></p>
+<h4 id="LR（左右失衡）"><a href="#LR（左右失衡）" class="headerlink" title="LR（左右失衡）"></a>LR（左右失衡）</h4><ul>
+<li>插入节点发生在左子树的右侧</li>
+</ul>
+<p><img src="/images/tree/77.png" alt="image-20260125142236568"></p>
+<h4 id="RL（右左失衡）"><a href="#RL（右左失衡）" class="headerlink" title="RL（右左失衡）"></a>RL（右左失衡）</h4><ul>
+<li>插入节点发生在右子树的左侧</li>
+</ul>
+<p><img src="/images/tree/78.png" alt="image-20260125142301790"></p>
+<h3 id="旋转方式"><a href="#旋转方式" class="headerlink" title="旋转方式"></a>旋转方式</h3><h4 id="单右旋转"><a href="#单右旋转" class="headerlink" title="单右旋转"></a>单右旋转</h4><blockquote>
+<p>旧根节点为新根节点的右子树，新根节点如果存在右子树则转到旧根节点左子树下</p>
+</blockquote>
+<p><img src="/images/tree/79.png" alt="image-20260125142908773"></p>
+<h4 id="单左旋转"><a href="#单左旋转" class="headerlink" title="单左旋转"></a>单左旋转</h4><blockquote>
+<p>旧根节点为新根节点的左子树，新根节点如果存在左子树则转到旧根节点右子树下</p>
+</blockquote>
+<p><img src="/images/tree/80.png" alt="image-20260125181359696"></p>
+<h4 id="左右旋转"><a href="#左右旋转" class="headerlink" title="左右旋转"></a>左右旋转</h4><p><img src="/images/tree/81.png" alt="image-20260125152110761"></p>
+<h4 id="右左旋转"><a href="#右左旋转" class="headerlink" title="右左旋转"></a>右左旋转</h4><p><img src="/images/tree/82.png" alt="image-20260125152132760"></p>
+<h3 id="模拟旋转"><a href="#模拟旋转" class="headerlink" title="模拟旋转"></a>模拟旋转</h3><blockquote>
+<p>模拟数据：30 20 10 40 50 60 70 100 90 80</p>
+</blockquote>
+<p><img src="/images/tree/83.png" alt="image-20260125164536863"></p>
+<h2 id="三、平衡框架设计"><a href="#三、平衡框架设计" class="headerlink" title="三、平衡框架设计"></a>三、平衡框架设计</h2><blockquote>
+<p>以下框架设计使用C语言实现</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;memory.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> _<span class="title">Node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">	<span class="type">int</span> value;				<span class="comment">//值</span></span><br><span class="line">	<span class="type">int</span> heigth;				<span class="comment">//高度（用来判断是否失衡）</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> _<span class="title">Node</span>* <span class="title">left</span>;</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> _<span class="title">Node</span>* <span class="title">rigth</span>;</span></span><br><span class="line">&#125;Node;</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建节点</span></span><br><span class="line">Node* <span class="title function_">NewNdoe</span><span class="params">(<span class="type">int</span> value)</span></span><br><span class="line">&#123;</span><br><span class="line">	Node* node = <span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(Node));</span><br><span class="line">	<span class="keyword">if</span> (node != <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		node-&gt;heigth = <span class="number">1</span>;</span><br><span class="line">		node-&gt;value = value;</span><br><span class="line">		node-&gt;left = <span class="literal">NULL</span>;</span><br><span class="line">		node-&gt;rigth = <span class="literal">NULL</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> node;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取高度</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">GetNodeHeigth</span><span class="params">(Node* node)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (node == <span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> node-&gt;heigth;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//获取平衡因子</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">GetNodeBalanceFactor</span><span class="params">(Node* node)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">return</span> GetNodeHeigth(node-&gt;left) - GetNodeHeigth(node-&gt;rigth);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//左旋转</span></span><br><span class="line">Node* <span class="title function_">LeftRotate</span><span class="params">(Node* oldRoot)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//右节点成为新根节点</span></span><br><span class="line">	Node* NewRoot = oldRoot-&gt;rigth;</span><br><span class="line">	Node* tmpNode = NewRoot-&gt;left;</span><br><span class="line">	<span class="comment">//旧根节点成为新根节点左子树</span></span><br><span class="line">	NewRoot-&gt;left = oldRoot;</span><br><span class="line">	<span class="comment">//如果新根节点存在左子树，则接在旧根节点的右子树上</span></span><br><span class="line">	oldRoot-&gt;rigth = tmpNode;</span><br><span class="line">	<span class="comment">//修正节点高度</span></span><br><span class="line">	oldRoot-&gt;heigth = max(GetNodeHeigth(oldRoot-&gt;left), GetNodeHeigth(oldRoot-&gt;rigth)) + <span class="number">1</span>;</span><br><span class="line">	NewRoot-&gt;heigth = max(GetNodeHeigth(NewRoot-&gt;left), GetNodeHeigth(NewRoot-&gt;rigth)) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> NewRoot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//右旋转</span></span><br><span class="line">Node* <span class="title function_">RigthRotate</span><span class="params">(Node* oldRoot)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//左节点成为新根节点</span></span><br><span class="line">	Node* NewRoot = oldRoot-&gt;left;</span><br><span class="line">	Node* tmpNode = NewRoot-&gt;rigth;</span><br><span class="line">	<span class="comment">//旧根节点成为新根节点右子树</span></span><br><span class="line">	NewRoot-&gt;rigth = oldRoot;</span><br><span class="line">	<span class="comment">//如果新根节点存在右子树，则接在旧根节点的左子树上</span></span><br><span class="line">	oldRoot-&gt;left = tmpNode;</span><br><span class="line">	<span class="comment">//修正节点高度</span></span><br><span class="line">	oldRoot-&gt;heigth = max(GetNodeHeigth(oldRoot-&gt;left), GetNodeHeigth(oldRoot-&gt;rigth)) + <span class="number">1</span> ;</span><br><span class="line">	NewRoot-&gt;heigth = max(GetNodeHeigth(NewRoot-&gt;left), GetNodeHeigth(NewRoot-&gt;rigth)) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">return</span> NewRoot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//插入节点</span></span><br><span class="line">Node* <span class="title function_">Insert</span><span class="params">(Node* Root, <span class="type">int</span> value)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">if</span> (Root == <span class="literal">NULL</span>) <span class="keyword">return</span> NewNdoe(value);</span><br><span class="line">	<span class="keyword">if</span> (value &lt; Root-&gt;value)</span><br><span class="line">	&#123;</span><br><span class="line">		Root-&gt;left = Insert(Root-&gt;left, value);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span> (value &gt; Root-&gt;value)</span><br><span class="line">	&#123;</span><br><span class="line">		Root-&gt;rigth = Insert(Root-&gt;rigth, value);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> Root;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//设置节点高度</span></span><br><span class="line">	Root-&gt;heigth = max(GetNodeHeigth(Root-&gt;left), GetNodeHeigth(Root-&gt;rigth)) + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">//获取平衡因子</span></span><br><span class="line">	<span class="type">int</span> balance = GetNodeBalanceFactor(Root);</span><br><span class="line">	<span class="comment">//二叉平衡树</span></span><br><span class="line">	<span class="comment">//左左</span></span><br><span class="line">	<span class="keyword">if</span> (balance &gt; <span class="number">1</span> &amp;&amp; value &lt; Root-&gt;left-&gt;value)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> RigthRotate(Root);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//右右</span></span><br><span class="line">	<span class="keyword">if</span> (balance &lt; <span class="number">-1</span> &amp;&amp; value &gt; Root-&gt;rigth-&gt;value)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> LeftRotate(Root);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//左右</span></span><br><span class="line">	<span class="keyword">if</span> (balance &gt; <span class="number">1</span> &amp;&amp; value &gt; Root-&gt;left-&gt;value)</span><br><span class="line">	&#123;</span><br><span class="line">		Root-&gt;left = LeftRotate(Root-&gt;left);</span><br><span class="line">		<span class="keyword">return</span> RigthRotate(Root);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//右左</span></span><br><span class="line">	<span class="keyword">if</span> (balance &lt; <span class="number">-1</span> &amp;&amp; value &lt; Root-&gt;rigth-&gt;value)</span><br><span class="line">	&#123;</span><br><span class="line">		Root-&gt;rigth = RigthRotate(Root-&gt;rigth);</span><br><span class="line">		<span class="keyword">return</span> LeftRotate(Root);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> Root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">	Node* Root = <span class="literal">NULL</span>;</span><br><span class="line">	Root = Insert(Root, <span class="number">30</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">20</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">10</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">40</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">50</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">60</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">70</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">100</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">90</span>);</span><br><span class="line">	Root = Insert(Root, <span class="number">80</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;%s\r\n&quot;</span>, <span class="string">&quot;Hello&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<p><img src="/images/tree/84.png" alt="image-20260125184512864"></p>
+
+  </div>
+</article>
+<!-- 
+ -->
+
+  <div class="card" data-aos="fade-up">
+    <div id="utteranc-container" class="card-content">
+        <script src="https://utteranc.es/client.js"
+                repo="Rankter/Rankter.github.io"
+                issue-term="pathname"
+                theme="github-dark"
+                crossorigin="anonymous"
+                async>
+        </script>
+    </div>
+</div>
+
+
+
+      </div>
+      
+       <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.</span> <span class="toc-text">一、平衡二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="toc-number">1.1.</span> <span class="toc-text">平衡二叉树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B9%B3%E8%A1%A1%E5%9B%A0%E5%AD%90%EF%BC%88BF%EF%BC%89"><span class="toc-number">1.2.</span> <span class="toc-text">平衡因子（BF）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%97%8B%E8%BD%AC"><span class="toc-number">2.</span> <span class="toc-text">二、旋转</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%A4%B1%E8%A1%A1%E7%B1%BB%E5%9E%8B%EF%BC%884%E7%A7%8D%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">失衡类型（4种）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LL%EF%BC%88%E5%B7%A6%E5%B7%A6%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.1.</span> <span class="toc-text">LL（左左失衡）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RR%EF%BC%88%E5%8F%B3%E5%8F%B3%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.2.</span> <span class="toc-text">RR（右右失衡）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#LR%EF%BC%88%E5%B7%A6%E5%8F%B3%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.3.</span> <span class="toc-text">LR（左右失衡）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#RL%EF%BC%88%E5%8F%B3%E5%B7%A6%E5%A4%B1%E8%A1%A1%EF%BC%89"><span class="toc-number">2.1.4.</span> <span class="toc-text">RL（右左失衡）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%8B%E8%BD%AC%E6%96%B9%E5%BC%8F"><span class="toc-number">2.2.</span> <span class="toc-text">旋转方式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%8F%B3%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.1.</span> <span class="toc-text">单右旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95%E5%B7%A6%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.2.</span> <span class="toc-text">单左旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%A6%E5%8F%B3%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.3.</span> <span class="toc-text">左右旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%B3%E5%B7%A6%E6%97%8B%E8%BD%AC"><span class="toc-number">2.2.4.</span> <span class="toc-text">右左旋转</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A8%A1%E6%8B%9F%E6%97%8B%E8%BD%AC"><span class="toc-number">2.3.</span> <span class="toc-text">模拟旋转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%B9%B3%E8%A1%A1%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1"><span class="toc-number">3.</span> <span class="toc-text">三、平衡框架设计</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&text=数据结构之平衡二叉树"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&is_video=false&description=数据结构之平衡二叉树"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=数据结构之平衡二叉树&body=Check out this article: http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&title=数据结构之平衡二叉树"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2026/01/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E5%B9%B3%E8%A1%A1%E4%BA%8C%E5%8F%89%E6%A0%91/&name=数据结构之平衡二叉树&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+      
+      <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2026 Rankter
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/tags/">Topics</a></li>
+         
+          <li><a href="/search/">Search</a></li>
+         
+          <li><a href="/project/">Projects</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+      
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- Google Analytics -->
+
+<!-- Disqus Comments -->
+
+
+    </div>
+</body>
+</html>
